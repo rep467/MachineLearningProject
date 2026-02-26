@@ -4,7 +4,7 @@ from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import random_split
 
-data_dir = "./Animals-10"
+data_dir = "./Animals-10/Animals-10"
 
 # load and resize dataset
 dataset = ImageFolder(data_dir,transform = transforms.Compose([
@@ -19,9 +19,9 @@ train_size = total_size - test_size
 
 train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
 
-batch_size = 1024
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=24)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, num_workers=24)
+batch_size = 512
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=0)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, num_workers=0)
 
 class CNN(torch.nn.Module):
     def __init__(self):
@@ -47,9 +47,15 @@ class CNN(torch.nn.Module):
 
     def forward(self, x):
         return self.model(x)
-    
 
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
+device = 'cpu'
+
+if torch.cuda.is_available():
+    print("gpu available")
+    device = 'cuda'
+else:
+    print("gpu not available")
+
 model = CNN().to(device)
 
 for images, labels in train_loader:
