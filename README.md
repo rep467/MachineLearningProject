@@ -40,3 +40,10 @@ run:
 python downloadDataset.py
 ```
 
+4. Run CNN sample
+
+run:
+
+```bash
+python train-cnn.py
+```
