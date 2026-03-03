@@ -4,24 +4,17 @@ from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import random_split
 
-data_dir = "./Animals-10/Animals-10"
 
-# load and resize dataset
-dataset = ImageFolder(data_dir,transform = transforms.Compose([
-    transforms.Resize((128,128)),transforms.ToTensor()
-]))
-
-print("Follwing classifications exist: \n",dataset.classes)
-
-total_size = len(dataset)
-test_size = int(0.1 * total_size)
-train_size = total_size - test_size
-
-train_dataset, test_dataset = random_split(dataset, [train_size, test_size])
+from dataset import *
+from performanceTester import *
 
 batch_size = 512
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=0)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, num_workers=0)
+torch.manual_seed(42)
+
+train_dataset, test_dataset = LoadAnimals10Dataset(batch_size=batch_size, seed=42)
+
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=24, shuffle=False)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, num_workers=24, shuffle=False)
 
 class CNN(torch.nn.Module):
     def __init__(self):
@@ -86,15 +79,4 @@ for epoch in range(num_epochs):
     train_loss_list.append(train_loss / len(train_loader))
     print(f"Training loss = {train_loss_list[-1]}")
 
-
-    test_acc = 0
-    model.eval()
-    with torch.no_grad():
-        for images, labels in test_loader:
-            images = images.to(device)
-            y_true = labels.to(device)
-            outputs = model(images)
-            _, y_pred = torch.max(outputs.data, 1)
-            test_acc += (y_pred == y_true).sum().item()
-
-    print(f"Test set accuracy = {100 * test_acc / len(test_dataset)} %")
+    CalculateAccuracy(model, test_loader, device, True)
