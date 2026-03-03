@@ -24,4 +24,6 @@ def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses =
     if seed != None:
         gen.manual_seed(seed)
 
-    return random_split(dataset, [train_size, test_size], generator=gen)
+    train_dataset, test_dataset = random_split(dataset, [train_size, test_size], generator=gen)
+
+    return train_dataset, test_dataset, dataset.classes

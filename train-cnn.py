@@ -11,10 +11,10 @@ from performanceTester import *
 batch_size = 512
 torch.manual_seed(42)
 
-train_dataset, test_dataset = LoadAnimals10Dataset(batch_size=batch_size, seed=42)
+train_dataset, test_dataset, classes = LoadAnimals10Dataset(batch_size=batch_size, seed=42)
 
-train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=24, shuffle=False)
-test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, num_workers=24, shuffle=False)
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=0)
+test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, num_workers=0)
 
 class CNN(torch.nn.Module):
     def __init__(self):
@@ -79,4 +79,4 @@ for epoch in range(num_epochs):
     train_loss_list.append(train_loss / len(train_loader))
     print(f"Training loss = {train_loss_list[-1]}")
 
-    CalculateAccuracy(model, test_loader, device, True)
+    CalculatePerformanceMetrics(model, test_loader, classes, device, True)

@@ -1,4 +1,6 @@
 import torch
+from sklearn.metrics import classification_report, confusion_matrix
+import numpy as np
 
 def CalculateAccuracy(model, test_loader, device='CPU', printData = False):
     test_acc = 0
@@ -16,3 +18,28 @@ def CalculateAccuracy(model, test_loader, device='CPU', printData = False):
         print(f"Test set accuracy = {accuracy} %")
     
     return accuracy
+
+def CalculatePerformanceMetrics(model, test_loader, classes, device, prinData = False):
+    model.eval()
+
+    all_preds = []
+    all_labels = []
+
+    with torch.no_grad():
+        for images, labels in test_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+
+            outputs = model(images)
+            _, preds = torch.max(outputs, 1)
+
+            all_preds.extend(preds.cpu().numpy())
+            all_labels.extend(labels.cpu().numpy())
+
+    all_preds = np.array(all_preds)
+    all_labels = np.array(all_labels)
+
+    if(prinData):
+        print(classification_report(all_labels, all_preds, target_names=classes))
+    
+    return all_labels, all_preds
