@@ -23,7 +23,7 @@ batch_size = 16
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle = True, num_workers=0)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle = False, num_workers=0)
 
-model = vit_b_16(weights=weights)
+model = vit_b_16(weights=None) # weights or None
 
 num_classes = len(dataset.classes)
 
