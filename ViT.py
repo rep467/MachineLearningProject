@@ -4,11 +4,16 @@ from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from torch.utils.data import random_split
 from torchvision.models import vit_b_16, ViT_B_16_Weights
+from torchvision.models import vit_l_16, ViT_L_16_Weights
 
 data_dir = "./Animals-10/Animals-10"
 
-weights = ViT_B_16_Weights.DEFAULT
-transform = weights.transforms()
+#weights = ViT_B_16_Weights.DEFAULT # base
+weights = ViT_L_16_Weights.DEFAULT # large
+
+transform = weights.transforms() 
+
+
 
 dataset = ImageFolder(data_dir, transform=transform)
 print("Following classifications exist:\n", dataset.classes)
@@ -23,7 +28,8 @@ batch_size = 16
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle = True, num_workers=0)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle = False, num_workers=0)
 
-model = vit_b_16(weights=None) # weights or None
+#model = vit_b_16(weights=None) # weights or None
+model = vit_l_16(weights=None)
 
 num_classes = len(dataset.classes)
 
