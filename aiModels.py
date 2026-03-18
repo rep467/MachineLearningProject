@@ -82,5 +82,5 @@ class ViTpretrained(torch.nn.Module):
         in_features = self.model.heads.head.in_features
         self.model.heads.head = torch.nn.Linear(in_features, 10)
 
-def forward(self, x):
-    return self.model(x)
+    def forward(self, x):
+        return self.model(x)
