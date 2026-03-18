@@ -62,5 +62,25 @@ class CNN2(torch.nn.Module):
                 torch.nn.Linear(512, 10)
         )
 
+class ViT(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.model = vit_l_16(weights=None)
+
+        in_features = self.model.heads.head.in_features
+        self.model.heads.head = torch.nn.Linear(in_features, 10)
+
     def forward(self, x):
         return self.model(x)
+
+class ViTpretrained(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        
+        self.model = vit_l_16(weights=ViT_L_16_Weights.DEFAULT)
+
+        in_features = self.model.heads.head.in_features
+        self.model.heads.head = torch.nn.Linear(in_features, 10)
+
+def forward(self, x):
+    return self.model(x)
