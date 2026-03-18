@@ -32,6 +32,10 @@ install pytorch (check [https://pytorch.org/get-started/locally/](https://pytorc
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
 ```
 
+```bash
+pip install scikit-learn
+```
+
 3. download dataset into local folder
 
 run:
