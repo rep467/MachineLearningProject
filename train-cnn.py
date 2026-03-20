@@ -17,9 +17,10 @@ num_workers = 0
 torch.manual_seed(42)
 
 # method in dataset.py
-train_dataset, test_dataset, classes = LoadAnimals10Dataset(batch_size=batch_size, seed=42)
+train_dataset, test_dataset, val_dataset, classes = LoadAnimals10Dataset(batch_size=batch_size, seed=42)
 
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, num_workers=num_workers)
+val_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, num_workers=num_workers)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, num_workers=num_workers)
 
 # select gpu if available (it should be faster)
@@ -38,4 +39,4 @@ for images, labels in train_loader:
     images, labels = images.to(device), labels.to(device)
 
 # method in train.py
-train(model, test_loader, train_loader, classes, device, 10)
+train(model, val_loader, train_loader, classes, device, 10)

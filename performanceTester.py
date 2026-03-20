@@ -39,7 +39,9 @@ def CalculatePerformanceMetrics(model, test_loader, classes, device, prinData = 
     all_preds = np.array(all_preds)
     all_labels = np.array(all_labels)
 
+    result = classification_report(all_labels, all_preds, target_names=classes)
+
     if(prinData):
-        print(classification_report(all_labels, all_preds, target_names=classes))
+        print(result)
     
-    return all_labels, all_preds
+    return classification_report(all_labels, all_preds, target_names=classes, output_dict=True)

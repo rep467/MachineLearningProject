@@ -17,13 +17,17 @@ def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses =
 
     total_size = len(dataset)
     test_size = int(0.1 * total_size)
-    train_size = total_size - test_size
+    val_size = test_size
+    train_size = total_size - 2*test_size
 
     gen = torch.Generator()
 
     if seed != None:
         gen.manual_seed(seed)
 
-    train_dataset, test_dataset = random_split(dataset, [train_size, test_size], generator=gen)
+    train_dataset, test_dataset, val_dataset = random_split(dataset, [train_size, test_size, val_size], generator=gen)
 
-    return train_dataset, test_dataset, dataset.classes
+    return train_dataset, test_dataset, val_dataset, dataset.classes
+
+def initDataLoaders(*datasets, num_workers, batch_size):
+    return tuple(torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size, num_workers=num_workers, shuffle=True) for dataset in datasets)

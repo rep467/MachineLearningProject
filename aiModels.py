@@ -1,4 +1,5 @@
 import torch
+from torchvision.models import vit_b_16, ViT_B_16_Weights
 
 class CNN1(torch.nn.Module):
     def __init__(self):
@@ -24,6 +25,9 @@ class CNN1(torch.nn.Module):
 
     def forward(self, x):
         return self.model(x)
+    
+    def getName(self):
+        return "CNN-custom-1"
 
 
 class CNN2(torch.nn.Module):
@@ -62,25 +66,37 @@ class CNN2(torch.nn.Module):
                 torch.nn.Linear(512, 10)
         )
 
+    def forward(self, x):
+        return self.model(x)
+        
+    def getName(self):
+        return "CNN-custom-2"
+
 class ViT(torch.nn.Module):
     def __init__(self):
         super().__init__()
-        self.model = vit_l_16(weights=None)
+        self.model = vit_b_16(weights=None)
 
         in_features = self.model.heads.head.in_features
         self.model.heads.head = torch.nn.Linear(in_features, 10)
 
     def forward(self, x):
         return self.model(x)
+    
+    def getName(self):
+        return "vit_b_16"
 
 class ViTpretrained(torch.nn.Module):
     def __init__(self):
         super().__init__()
         
-        self.model = vit_l_16(weights=ViT_L_16_Weights.DEFAULT)
+        self.model = vit_b_16(weights=ViT_B_16_Weights.DEFAULT)
 
         in_features = self.model.heads.head.in_features
         self.model.heads.head = torch.nn.Linear(in_features, 10)
 
     def forward(self, x):
         return self.model(x)
+    
+    def getName(self):
+        return "vit_b_16_pretrained"
