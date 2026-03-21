@@ -43,6 +43,9 @@ def scenarioRotatedAndFlippedImages(*models):
     train_dataset, test_dataset, val_dataset, classes = LoadAnimals10Dataset(seed=42, imageSizeX=224, imageSizeY=224)
     train_dataset = rotateAndFlipDataset(train_dataset)
     train_loader, test_loader, val_loader = initDataLoaders(train_dataset, test_dataset, val_dataset, num_workers=24, batch_size=16)
+    
+
+    #show_random_batch(train_loader)
 
     device = 'cpu'
     if torch.cuda.is_available():
@@ -51,6 +54,9 @@ def scenarioRotatedAndFlippedImages(*models):
     else:
         print("gpu not available")
 
+    #class_weights = get_class_weights(train_loader, len(classes), device)
+    #print(class_weights)
+
     for model in models:
         model = model.to(device)
 
@@ -58,5 +64,7 @@ def scenarioRotatedAndFlippedImages(*models):
 
         torch.save(model.state_dict(), f'rotated_and_flipped_augmentaition_{model.getName()}.pth')
 
-#baseScenario(ViT(), ViTpretrained(), CNN2())
+
+baseScenario(ViT(), ViTpretrained(), CNN2())
 scenarioRotatedAndFlippedImages(CNN2(), ViT(), ViTpretrained())
+
