@@ -48,7 +48,7 @@ def get_class_weights(dataloader, num_classes, device):
 
 
 
-def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses = False, seed = None, batch_size = 64, num_workers=0):
+def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses = False, seed = None, batch_size = 64, num_workers=0, test_size=0.1, val_size=0.1):
     dataset = ImageFolder(data_dir,transform = transforms.Compose([
         transforms.Resize((imageSizeX,imageSizeY)),transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
@@ -58,9 +58,9 @@ def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses =
         print("Follwing classifications exist: \n",dataset.classes)
 
     total_size = len(dataset)
-    test_size = int(0.1 * total_size)
-    val_size = test_size
-    train_size = total_size - 2*test_size
+    test_size = int(test_size * total_size)
+    val_size = int(val_size * total_size)
+    train_size = total_size - (test_size + val_size)
 
     gen = torch.Generator()
 

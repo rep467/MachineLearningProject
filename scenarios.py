@@ -65,6 +65,7 @@ def scenarioRotatedAndFlippedImages(*models):
         torch.save(model.state_dict(), f'rotated_and_flipped_augmentaition_{model.getName()}.pth')
 
 
-baseScenario(ViT(), ViTpretrained(), CNN2())
-scenarioRotatedAndFlippedImages(CNN2(), ViT(), ViTpretrained())
+if __name__ == "__main__":
+    baseScenario(ViT(), ViTpretrained(), CNN2())
+    scenarioRotatedAndFlippedImages(CNN2(), ViT(), ViTpretrained())
 
