@@ -20,7 +20,7 @@ def baseScenario(*models):
     torch.manual_seed(42)
     # method in dataset.py
     train_dataset, test_dataset, val_dataset, classes = LoadAnimals10Dataset(seed=42, imageSizeX=224, imageSizeY=224)
-    train_loader, test_loader, val_loader = initDataLoaders(train_dataset, test_dataset, val_dataset, num_workers=0, batch_size=16)
+    train_loader, test_loader, val_loader = initDataLoaders(train_dataset, test_dataset, val_dataset, num_workers=24, batch_size=16)
 
     device = 'cpu'
     if torch.cuda.is_available():
