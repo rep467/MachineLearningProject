@@ -1,6 +1,6 @@
 from performanceTester import *
 
-def train(model, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch = -1, num_epochs = 100, learning_rate = 0.0001, weight_decay=0.01, earlyStop=False):
+def train(model, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch = -1, num_epochs = 100, learning_rate = 0.0001, weight_decay=0.01, earlyStop=False, testAgainstTrainingSet=False):
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(
         model.parameters(), lr=learning_rate, weight_decay=weight_decay)
@@ -44,8 +44,9 @@ def train(model, test_loader, train_loader, classes, device, printPerformanceEve
             if (epoch + 1) % printPerformanceEveryNEpoch == 0:
                 print("Performance Validation:")
                 CalculatePerformanceMetrics(model, test_loader, classes, device, True)
-                print("Performance Training:")
-                CalculatePerformanceMetrics(model, train_loader, classes, device, True)
+                if testAgainstTrainingSet:
+                    print("Performance Training:")
+                    CalculatePerformanceMetrics(model, train_loader, classes, device, True)
 
     if bestScoreEpochNr != num_epochs -1:
        model.load_state_dict(torch.load('best_state.pth')) 

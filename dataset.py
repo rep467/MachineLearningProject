@@ -24,11 +24,15 @@ class TransformedSubset(Dataset):
         return len(self.set)
 
 def rotateAndFlipDataset(dataset):
-    train_transform = transforms.Compose([
+    train_augmentation = transforms.Compose([
         transforms.RandomHorizontalFlip(p=0.5),
-        transforms.RandomRotation(degrees=15),
-        transforms.ToTensor()
+        transforms.RandomRotation(degrees=15)
     ])
+
+    dataset = TransformedSubset(dataset)
+    dataset.transform = train_augmentation
+
+    return dataset
 
 
 
@@ -54,7 +58,6 @@ def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses =
         gen.manual_seed(seed)
 
     train_dataset, test_dataset, val_dataset = random_split(dataset, [train_size, test_size, val_size], generator=gen)
-
     return train_dataset, test_dataset, val_dataset, dataset.classes
 
 def initDataLoaders(*datasets, num_workers, batch_size):
