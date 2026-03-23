@@ -64,8 +64,35 @@ def scenarioRotatedAndFlippedImages(*models):
 
         torch.save(model.state_dict(), f'rotated_and_flipped_augmentaition_{model.getName()}.pth')
 
+def classWeights(*models):
+    torch.manual_seed(42)
+    # method in dataset.py
+    train_dataset, test_dataset, val_dataset, classes = LoadAnimals10Dataset(seed=42, imageSizeX=224, imageSizeY=224)
+    train_loader, test_loader, val_loader = initDataLoaders(train_dataset, test_dataset, val_dataset, num_workers=24, batch_size=16)
+    
+
+    #show_random_batch(train_loader)
+
+    device = 'cpu'
+    if torch.cuda.is_available():
+        print("gpu available")
+        device = 'cuda'
+    else:
+        print("gpu not available")
+
+    class_weights = get_class_weights(train_loader, len(classes), device)
+    #print(class_weights)
+
+    for model in models:
+        model = model.to(device)
+
+        train(model, val_loader, train_loader, classes, device, 1, num_epochs=50, classs_weights=class_weights)
+
+        torch.save(model.state_dict(), f'class_weights_{model.getName()}.pth')
+
 
 if __name__ == "__main__":
-    baseScenario(ViT(), ViTpretrained(), CNN2())
+    classWeights(CNN2(), ViT(), ViTpretrained())
+    baseScenario(ViTpretrained(), ViT(), CNN2())
     scenarioRotatedAndFlippedImages(CNN2(), ViT(), ViTpretrained())
 

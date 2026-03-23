@@ -26,7 +26,7 @@ class TransformedSubset(Dataset):
 def rotateAndFlipDataset(dataset):
     train_augmentation = transforms.Compose([
         transforms.RandomHorizontalFlip(p=0.5),
-        transforms.RandomRotation(degrees=15)
+        transforms.RandomRotation(degrees=15),
     ])
 
     dataset = TransformedSubset(dataset)
@@ -46,12 +46,12 @@ def get_class_weights(dataloader, num_classes, device):
     
     return weights
 
-
+from torchvision.models import vit_b_16, ViT_B_16_Weights
 
 def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses = False, seed = None, batch_size = 64, num_workers=0, test_size=0.1, val_size=0.1):
     dataset = ImageFolder(data_dir,transform = transforms.Compose([
         transforms.Resize((imageSizeX,imageSizeY)),transforms.ToTensor(),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ]))
 
     if printDebugClasses:
@@ -71,7 +71,7 @@ def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses =
     return train_dataset, test_dataset, val_dataset, dataset.classes
 
 def initDataLoaders(*datasets, num_workers, batch_size):
-    return tuple(torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size, num_workers=num_workers, shuffle=True) for dataset in datasets)
+    return tuple(torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size, num_workers=num_workers, shuffle=False) for dataset in datasets)
 
 
 import matplotlib.pyplot as plt

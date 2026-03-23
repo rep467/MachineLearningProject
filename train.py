@@ -2,7 +2,7 @@ from performanceTester import *
 
 def train(model, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch = -1, num_epochs = 100, learning_rate = 0.0001, weight_decay=0.01, earlyStop=False, testAgainstTrainingSet=False, classs_weights=None):
     criterion = torch.nn.CrossEntropyLoss(weight=classs_weights)
-    optimizer = torch.optim.Adam(
+    optimizer = torch.optim.AdamW(
         model.parameters(), lr=learning_rate, weight_decay=weight_decay)
 
 
