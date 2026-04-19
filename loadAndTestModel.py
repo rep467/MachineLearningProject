@@ -31,6 +31,8 @@ def main():
         model = CNN2()
     elif args.name == 'Vit':
         model = ViT()
+    elif args.name == 'ENET':
+        model = EfficientNet()
     else:
         print("no matching model")
         return

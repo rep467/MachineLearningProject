@@ -8,8 +8,8 @@ from torchvision.models import vit_l_16, ViT_L_16_Weights
 
 data_dir = "./Animals-10/Animals-10"
 
-#weights = ViT_B_16_Weights.DEFAULT # base
-weights = ViT_L_16_Weights.DEFAULT # large
+weights = ViT_B_16_Weights.DEFAULT # base
+#weights = ViT_L_16_Weights.DEFAULT # large
 
 transform = weights.transforms() 
 
@@ -28,8 +28,8 @@ batch_size = 16
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size, shuffle = True, num_workers=0)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=batch_size, shuffle = False, num_workers=0)
 
-#model = vit_b_16(weights=None) # weights or None
-model = vit_l_16(weights=None)
+model = vit_b_16(weights=weights) # weights or None
+#model = vit_l_16(weights=None)
 
 num_classes = len(dataset.classes)
 

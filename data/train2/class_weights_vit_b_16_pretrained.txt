@@ -1,0 +1,16 @@
+              precision    recall  f1-score   support
+
+   butterfly       0.93      0.97      0.95       216
+         cat       0.96      0.95      0.95       167
+     chicken       0.97      0.97      0.97       289
+         cow       0.83      0.92      0.87       204
+         dog       0.98      0.84      0.90       477
+    elephant       0.99      0.91      0.95       151
+       horse       0.89      0.95      0.92       241
+       sheep       0.79      0.92      0.85       186
+      spider       1.00      0.96      0.98       484
+    squirrel       0.89      0.97      0.93       202
+
+    accuracy                           0.93      2617
+   macro avg       0.92      0.94      0.93      2617
+weighted avg       0.94      0.93      0.93      2617

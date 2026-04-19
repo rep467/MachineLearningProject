@@ -1,0 +1,5 @@
+CNN-custom-2 best state after 31
+vit_b_16 best state after 43
+vit_b_16_pretrained best state after 5
+efficientnet_b1 best state after 43
+efficientnet_b1_pretrained best state after 11

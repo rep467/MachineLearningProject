@@ -1,5 +1,5 @@
 import torch
-from torchvision.models import vit_b_16, ViT_B_16_Weights
+from torchvision.models import vit_b_16, ViT_B_16_Weights, efficientnet_b1, EfficientNet_B1_Weights
 
 class CNN1(torch.nn.Module):
     def __init__(self):
@@ -100,3 +100,34 @@ class ViTpretrained(torch.nn.Module):
     
     def getName(self):
         return "vit_b_16_pretrained"
+
+
+class EfficientNetPretrained(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        
+        self.model = efficientnet_b1(weights=EfficientNet_B1_Weights.DEFAULT)
+
+        in_features = self.model.classifier[1].in_features
+        self.model.classifier[1] = torch.nn.Linear(in_features, 10)
+
+    def forward(self, x):
+        return self.model(x)
+    
+    def getName(self):
+        return "efficientnet_b1_pretrained"
+    
+class EfficientNet(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        
+        self.model = efficientnet_b1(weights=None)
+
+        in_features = self.model.classifier[1].in_features
+        self.model.classifier[1] = torch.nn.Linear(in_features, 10)
+
+    def forward(self, x):
+        return self.model(x)
+    
+    def getName(self):
+        return "efficientnet_b1"

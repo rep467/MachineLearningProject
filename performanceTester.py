@@ -19,7 +19,7 @@ def CalculateAccuracy(model, test_loader, device='CPU', printData = False):
     
     return accuracy
 
-def CalculatePerformanceMetrics(model, test_loader, classes, device, prinData = False):
+def CalculatePerformanceMetrics(model, test_loader, classes, device, prinData = False, returnFormatedResults = False):
     model.eval()
 
     all_preds = []
@@ -39,9 +39,12 @@ def CalculatePerformanceMetrics(model, test_loader, classes, device, prinData = 
     all_preds = np.array(all_preds)
     all_labels = np.array(all_labels)
 
-    result = classification_report(all_labels, all_preds, target_names=classes)
+    if(prinData or returnFormatedResults):
+        result = classification_report(all_labels, all_preds, target_names=classes)
+        if prinData:
+            print(result)
 
-    if(prinData):
-        print(result)
+        if returnFormatedResults:
+            return result
     
     return classification_report(all_labels, all_preds, target_names=classes, output_dict=True)

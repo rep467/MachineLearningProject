@@ -70,6 +70,20 @@ def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses =
     train_dataset, test_dataset, val_dataset = random_split(dataset, [train_size, test_size, val_size], generator=gen)
     return train_dataset, test_dataset, val_dataset, dataset.classes
 
+def LoadAnimals10DatasetReducedTrainSize(imageSizeX = 128, imageSizeY = 128, printDebugClasses = False, seed = None, batch_size = 64, num_workers=0, test_size=0.1, val_size=0.1):
+    train_dataset, test_dataset, val_dataset, classes = LoadAnimals10Dataset(imageSizeX, imageSizeY, printDebugClasses, seed, batch_size, num_workers, test_size, val_size)
+    length = len(train_dataset)
+    print(length)
+    train_size = int(length * 0.1)
+    throw_away_size = length - train_size
+
+    gen = torch.Generator()
+    gen.manual_seed(42)
+
+    train_dataset, throw_away_dataset = random_split(train_dataset, [train_size, throw_away_size], generator=gen)
+
+    return train_dataset, test_dataset, val_dataset, classes
+
 def initDataLoaders(*datasets, num_workers, batch_size):
     return tuple(torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size, num_workers=num_workers, shuffle=False) for dataset in datasets)
 

@@ -22,19 +22,9 @@ def baseScenario(*models):
     train_dataset, test_dataset, val_dataset, classes = LoadAnimals10Dataset(seed=42, imageSizeX=224, imageSizeY=224)
     train_loader, test_loader, val_loader = initDataLoaders(train_dataset, test_dataset, val_dataset, num_workers=24, batch_size=16)
 
-    device = 'cpu'
-    if torch.cuda.is_available():
-        print("gpu available")
-        device = 'cuda'
-    else:
-        print("gpu not available")
+    device = getDevice()
 
-    for model in models:
-        model = model.to(device)
-
-        train(model, val_loader, train_loader, classes, device, 1, num_epochs=50)
-
-        torch.save(model.state_dict(), f'base_case_{model.getName()}.pth')
+    trainAndSave(models, 'base_case', val_loader, train_loader, classes, device, 1, num_epochs=50)
 
 
 def scenarioRotatedAndFlippedImages(*models):
@@ -47,22 +37,12 @@ def scenarioRotatedAndFlippedImages(*models):
 
     #show_random_batch(train_loader)
 
-    device = 'cpu'
-    if torch.cuda.is_available():
-        print("gpu available")
-        device = 'cuda'
-    else:
-        print("gpu not available")
+    device = getDevice()
 
     #class_weights = get_class_weights(train_loader, len(classes), device)
     #print(class_weights)
 
-    for model in models:
-        model = model.to(device)
-
-        train(model, val_loader, train_loader, classes, device, 1, num_epochs=50)
-
-        torch.save(model.state_dict(), f'rotated_and_flipped_augmentaition_{model.getName()}.pth')
+    trainAndSave(models, 'rotated_and_flipped_augmentaition', val_loader, train_loader, classes, device, 1, num_epochs=50)
 
 def classWeights(*models):
     torch.manual_seed(42)
@@ -83,16 +63,63 @@ def classWeights(*models):
     class_weights = get_class_weights(train_loader, len(classes), device)
     #print(class_weights)
 
-    for model in models:
-        model = model.to(device)
+    trainAndSave(models, 'class_weights', val_loader, train_loader, classes, device, 1, num_epochs=50, classs_weights=class_weights)
 
-        train(model, val_loader, train_loader, classes, device, 1, num_epochs=50, classs_weights=class_weights)
+def reducedDataset(*models):
+    torch.manual_seed(42)
+    # method in dataset.py
+    train_dataset, test_dataset, val_dataset, classes = LoadAnimals10DatasetReducedTrainSize(seed=42, imageSizeX=224, imageSizeY=224)
+    train_loader, test_loader, val_loader = initDataLoaders(train_dataset, test_dataset, val_dataset, num_workers=24, batch_size=16)
 
-        torch.save(model.state_dict(), f'class_weights_{model.getName()}.pth')
+    device = getDevice()
 
+    trainAndSave(models, 'reduced_dataset', val_loader, train_loader, classes, device, 1, num_epochs=50)
+
+def reducedDatasetScenarioRotatedAndFlippedImages(*models):
+    torch.manual_seed(42)
+    # method in dataset.py
+    train_dataset, test_dataset, val_dataset, classes = LoadAnimals10DatasetReducedTrainSize(seed=42, imageSizeX=224, imageSizeY=224)
+    train_dataset = rotateAndFlipDataset(train_dataset)
+    train_loader, test_loader, val_loader = initDataLoaders(train_dataset, test_dataset, val_dataset, num_workers=24, batch_size=16)
+    
+
+    #show_random_batch(train_loader)
+
+    device = getDevice()
+
+    #class_weights = get_class_weights(train_loader, len(classes), device)
+    #print(class_weights)
+
+    trainAndSave(models, 'reduced_dataset_rotated_and_flipped_augmentaition', val_loader, train_loader, classes, device, 1, num_epochs=50)
+
+def reducedDatasetClassWeights(*models):
+    torch.manual_seed(42)
+    # method in dataset.py
+    train_dataset, test_dataset, val_dataset, classes = LoadAnimals10DatasetReducedTrainSize(seed=42, imageSizeX=224, imageSizeY=224)
+    train_loader, test_loader, val_loader = initDataLoaders(train_dataset, test_dataset, val_dataset, num_workers=24, batch_size=16)
+    
+
+    #show_random_batch(train_loader)
+
+    device = getDevice()
+
+    class_weights = get_class_weights(train_loader, len(classes), device)
+    #print(class_weights)
+
+    trainAndSave(models, 'reduced_dataset_class_weights', val_loader, train_loader, classes, device, 1, num_epochs=50, classs_weights=class_weights)
 
 if __name__ == "__main__":
-    classWeights(CNN2(), ViT(), ViTpretrained())
-    baseScenario(ViTpretrained(), ViT(), CNN2())
-    scenarioRotatedAndFlippedImages(CNN2(), ViT(), ViTpretrained())
+    #reducedDataset(EfficientNet(), EfficientNetPretrained())
+    #reducedDatasetScenarioRotatedAndFlippedImages(EfficientNet(), EfficientNetPretrained())
+    #reducedDatasetClassWeights(EfficientNet(), EfficientNetPretrained())
+    #classWeights(EfficientNet(), EfficientNetPretrained())
+    #scenarioRotatedAndFlippedImages(EfficientNet(), EfficientNetPretrained())
+    #pass
+
+    reducedDataset(CNN2(), ViT(), ViTpretrained(), EfficientNet(), EfficientNetPretrained())
+    reducedDatasetScenarioRotatedAndFlippedImages(CNN2(), ViT(), ViTpretrained(), EfficientNet(), EfficientNetPretrained())
+    reducedDatasetClassWeights(CNN2(), ViT(), ViTpretrained(), EfficientNet(), EfficientNetPretrained())
+    classWeights(CNN2(), ViT(), ViTpretrained(), EfficientNet(), EfficientNetPretrained())
+    baseScenario(ViTpretrained(), ViT(), CNN2(), EfficientNet(), EfficientNetPretrained())
+    scenarioRotatedAndFlippedImages(CNN2(), ViT(), ViTpretrained(), EfficientNet(), EfficientNetPretrained())
 

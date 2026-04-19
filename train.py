@@ -1,5 +1,23 @@
 from performanceTester import *
 
+def trainAndSave(models, scenarioName, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch = -1, num_epochs = 100, learning_rate = 0.0001, weight_decay=0.01, earlyStop=False, testAgainstTrainingSet=False, classs_weights=None):
+    result = ''
+
+    for model in models:
+        model = model.to(device)
+
+        epoch = train(model, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch, num_epochs, learning_rate, weight_decay, earlyStop, testAgainstTrainingSet, classs_weights)
+
+        torch.save(model.state_dict(), f'{scenarioName}_{model.getName()}.pth')
+
+        result += f'{model.getName()} best state after {epoch}\n'
+
+    try:
+        with open(f'{scenarioName}.txt', "w", encoding="utf-8") as fileW:
+            fileW.write(result)
+    except IOError as e:
+        print(f"Error writing to file: {e}")
+
 def train(model, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch = -1, num_epochs = 100, learning_rate = 0.0001, weight_decay=0.01, earlyStop=False, testAgainstTrainingSet=False, classs_weights=None):
     criterion = torch.nn.CrossEntropyLoss(weight=classs_weights)
     optimizer = torch.optim.AdamW(
@@ -49,4 +67,6 @@ def train(model, test_loader, train_loader, classes, device, printPerformanceEve
                     CalculatePerformanceMetrics(model, train_loader, classes, device, True)
 
     if bestScoreEpochNr != num_epochs -1:
-       model.load_state_dict(torch.load('best_state.pth')) 
+       model.load_state_dict(torch.load('best_state.pth'))
+
+    return  bestScoreEpochNr + 1
