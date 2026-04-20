@@ -1,3 +1,4 @@
+#Author: Per Sander, Dominic Smith, Alexander Go
 import torch
 import torchvision
 from torchvision import transforms
