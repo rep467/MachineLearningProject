@@ -1,3 +1,4 @@
+#Authors: Per Sander and Dominic Smith
 import torch
 import torchvision
 from torchvision import transforms
