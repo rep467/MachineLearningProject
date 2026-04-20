@@ -1,7 +1,11 @@
 #Author: Per Sander
 import torch
 from torchvision.models import vit_b_16, ViT_B_16_Weights, efficientnet_b1, EfficientNet_B1_Weights
+'''
+First try of defining a CNN model (POC)
 
+Was not used in the experiment
+'''
 class CNN1(torch.nn.Module):
     def __init__(self):
         super().__init__()
@@ -30,7 +34,9 @@ class CNN1(torch.nn.Module):
     def getName(self):
         return "CNN-custom-1"
 
-
+'''
+Custom CNN model seccond try of defining a CNN model which was used in the experiment
+'''
 class CNN2(torch.nn.Module):
     def __init__(self):
         super().__init__()
@@ -73,6 +79,9 @@ class CNN2(torch.nn.Module):
     def getName(self):
         return "CNN-custom-2"
 
+'''
+vit_b_16 
+'''
 class ViT(torch.nn.Module):
     def __init__(self):
         super().__init__()
@@ -86,7 +95,9 @@ class ViT(torch.nn.Module):
     
     def getName(self):
         return "vit_b_16"
-
+'''
+vit_b_16 with pretrained weight loading 
+'''
 class ViTpretrained(torch.nn.Module):
     def __init__(self):
         super().__init__()
@@ -102,7 +113,9 @@ class ViTpretrained(torch.nn.Module):
     def getName(self):
         return "vit_b_16_pretrained"
 
-
+'''
+EfficientNet with pretrained weight loading
+'''
 class EfficientNetPretrained(torch.nn.Module):
     def __init__(self):
         super().__init__()
@@ -117,7 +130,9 @@ class EfficientNetPretrained(torch.nn.Module):
     
     def getName(self):
         return "efficientnet_b1_pretrained"
-    
+'''
+EfficientNet
+'''
 class EfficientNet(torch.nn.Module):
     def __init__(self):
         super().__init__()
