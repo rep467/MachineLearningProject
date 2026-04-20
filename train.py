@@ -1,3 +1,4 @@
+#Author: Per Sander, Dominic Smith, and Alexander Go
 from performanceTester import *
 
 def trainAndSave(models, scenarioName, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch = -1, num_epochs = 100, learning_rate = 0.0001, weight_decay=0.01, earlyStop=False, testAgainstTrainingSet=False, classs_weights=None):
