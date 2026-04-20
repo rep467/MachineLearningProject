@@ -1,3 +1,4 @@
+#Author: Per Sander and Dominic Smith
 import torch
 from sklearn.metrics import classification_report, confusion_matrix
 import numpy as np
