@@ -1,4 +1,4 @@
-#Author: Per Sander
+#Author: Per Sander (based on POC code by Dominic Smith)
 import torch
 import torchvision
 from torchvision import transforms
