@@ -1,3 +1,4 @@
+#Author: Per Sander
 from pathlib import Path
 
 import torch
