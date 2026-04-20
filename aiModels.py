@@ -1,3 +1,4 @@
+#Author: Per Sander
 import torch
 from torchvision.models import vit_b_16, ViT_B_16_Weights, efficientnet_b1, EfficientNet_B1_Weights
 
