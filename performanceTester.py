@@ -3,6 +3,9 @@ import torch
 from sklearn.metrics import classification_report, confusion_matrix
 import numpy as np
 
+'''
+calculates accuracy given model and testing set
+'''
 def CalculateAccuracy(model, test_loader, device='CPU', printData = False):
     test_acc = 0
     model.eval()
@@ -20,6 +23,9 @@ def CalculateAccuracy(model, test_loader, device='CPU', printData = False):
     
     return accuracy
 
+'''
+calculates performance metric (confusion matrix and f1 score) given model and testing set 
+'''
 def CalculatePerformanceMetrics(model, test_loader, classes, device, prinData = False, returnFormatedResults = False):
     model.eval()
 
