@@ -10,6 +10,9 @@ from torchvision import transforms
 
 data_dir = "./Animals-10/Animals-10"
 
+'''
+applies transformation to dataset used by rotateAndFlipDataset
+'''
 class TransformedSubset(Dataset):
     def __init__(self, set, transform=None):
         self.set = set
@@ -24,6 +27,9 @@ class TransformedSubset(Dataset):
     def __len__(self):
         return len(self.set)
 
+'''
+applies rotaition to a dataset
+'''
 def rotateAndFlipDataset(dataset):
     train_augmentation = transforms.Compose([
         transforms.RandomHorizontalFlip(p=0.5),
@@ -35,6 +41,9 @@ def rotateAndFlipDataset(dataset):
 
     return dataset
 
+'''
+calculates the class weights (ratios) of the dataset
+'''
 def get_class_weights(dataloader, num_classes, device):
     counts = torch.zeros(num_classes).to(device)
     
@@ -49,6 +58,9 @@ def get_class_weights(dataloader, num_classes, device):
 
 from torchvision.models import vit_b_16, ViT_B_16_Weights
 
+'''
+function to load the dataset with seed (to ensure same datasets splits are used) and applies normalization
+'''
 def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses = False, seed = None, batch_size = 64, num_workers=0, test_size=0.1, val_size=0.1):
     dataset = ImageFolder(data_dir,transform = transforms.Compose([
         transforms.Resize((imageSizeX,imageSizeY)),transforms.ToTensor(),
@@ -71,6 +83,9 @@ def LoadAnimals10Dataset(imageSizeX = 128, imageSizeY = 128, printDebugClasses =
     train_dataset, test_dataset, val_dataset = random_split(dataset, [train_size, test_size, val_size], generator=gen)
     return train_dataset, test_dataset, val_dataset, dataset.classes
 
+'''
+function to load the dataset with reduced training size, seed (to ensure same datasets splits are used) and applies normalization 
+'''
 def LoadAnimals10DatasetReducedTrainSize(imageSizeX = 128, imageSizeY = 128, printDebugClasses = False, seed = None, batch_size = 64, num_workers=0, test_size=0.1, val_size=0.1):
     train_dataset, test_dataset, val_dataset, classes = LoadAnimals10Dataset(imageSizeX, imageSizeY, printDebugClasses, seed, batch_size, num_workers, test_size, val_size)
     length = len(train_dataset)
@@ -93,6 +108,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torchvision
 
+'''
+function to display some images for visualization and testing of augmentaitions
+'''
 def show_random_batch(dataloader, num_images=10):
     # 1. Grab one batch of data
     images, labels = next(iter(dataloader))
