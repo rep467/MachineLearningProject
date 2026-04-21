@@ -79,3 +79,12 @@ run:
 ```bash
 python testTrainedModels.py
 ```
+
+The following loads and test a single model
+See the file itself for more detailed instructions
+
+run:
+
+```bash
+python loadAndTestModel.py [MODELNAME] [.pth FILE]
+```
