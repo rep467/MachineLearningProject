@@ -72,7 +72,7 @@ This will run all scenarios and will generate .pth for every model for each scen
 
 To generate the performance metrics for every model in every scenario run
 
-Minor adjustments may be needed as the path for folder containing teh .pth files is hardcoded
+Minor adjustments may be needed as the path for folder containing the .pth files is hardcoded
 
 run:
 
