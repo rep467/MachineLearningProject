@@ -13,6 +13,14 @@ from train import *
 from aiModels import *
 from scenarios import *
 
+
+'''
+small program to load a single model from the .pth file and test it
+
+parameters:
+    model name = valid: CNN2, Vit, ENET
+    file path  = path of the .pth file
+'''
 def main():
     parser = argparse.ArgumentParser(description="program to load and assess model")
 
