@@ -1,6 +1,9 @@
 #Author: Per Sander, Dominic Smith, and Alexander Go
 from performanceTester import *
 
+'''
+Training function which calls the training function for each individual model
+'''
 def trainAndSave(models, scenarioName, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch = -1, num_epochs = 100, learning_rate = 0.0001, weight_decay=0.01, earlyStop=False, testAgainstTrainingSet=False, classs_weights=None):
     result = ''
 
@@ -19,6 +22,9 @@ def trainAndSave(models, scenarioName, test_loader, train_loader, classes, devic
     except IOError as e:
         print(f"Error writing to file: {e}")
 
+'''
+Training function for the ai models
+'''
 def train(model, test_loader, train_loader, classes, device, printPerformanceEveryNEpoch = -1, num_epochs = 100, learning_rate = 0.0001, weight_decay=0.01, earlyStop=False, testAgainstTrainingSet=False, classs_weights=None):
     criterion = torch.nn.CrossEntropyLoss(weight=classs_weights)
     optimizer = torch.optim.AdamW(
