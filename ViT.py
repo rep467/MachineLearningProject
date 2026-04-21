@@ -9,6 +9,7 @@ from torchvision.models import vit_l_16, ViT_L_16_Weights
 
 data_dir = "./Animals-10/Animals-10"
 
+#swap this and the model to try the larger model
 weights = ViT_B_16_Weights.DEFAULT # base
 #weights = ViT_L_16_Weights.DEFAULT # large
 
