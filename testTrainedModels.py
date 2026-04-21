@@ -13,6 +13,10 @@ from aiModels import *
 from scenarios import *
 
 
+'''
+This script loads all saved models in a directory, calculates and saves the performance metrics to a txt file for every model
+'''
+
 
 train_dataset, test_dataset, val_dataset, classes = LoadAnimals10Dataset(seed=42, imageSizeX=224, imageSizeY=224)
 test_loader = initDataLoaders(test_dataset, num_workers=24, batch_size=16)
@@ -21,7 +25,9 @@ test_loader = test_loader[0]
 
 device = getDevice()
 
-
+'''
+change this to path where your .pth files are saved
+'''
 directory_path = Path('./TrainedModels1')
 
 files = [item for item in directory_path.iterdir() if item.is_file()]
