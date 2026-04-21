@@ -38,6 +38,12 @@ install scikit-learn
 pip install scikit-learn
 ```
 
+install matplotlib
+
+```bash
+pip install matplotlib
+```
+
 3. download dataset into local folder
 
 run:
